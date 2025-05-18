@@ -10,7 +10,6 @@ export function GlobalLayout({ children }: PropsWithChildren) {
 			<div className="min-h-screen flex flex-col items-center justify-center bg-[#282c34] text-white text-[calc(10px+2vmin)]">
 				{children ? children : <Outlet />}
 			</div>
-			<footer>Footer of app</footer>
 		</div>
 	);
 }

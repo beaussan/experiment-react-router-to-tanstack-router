@@ -9,12 +9,18 @@ export default function Header() {
 				<div className="px-2 font-bold">
 					<MyLink to="/">Home</MyLink>
 				</div>
+				<div className="px-2 font-bold">
+					<MyLink to="/how">How</MyLink>
+				</div>
 
 				<div className="px-2 font-bold">
-					<MyLink to="/modern">Modern</MyLink>
+					<MyLink to="/one">One</MyLink>
 				</div>
 				<div className="px-2 font-bold">
-					<MyLink to="/legacy">Legacy</MyLink>
+					<MyLink to="/two">Two</MyLink>
+				</div>
+				<div className="px-2 font-bold">
+					<MyLink to="/how">How</MyLink>
 				</div>
 				<div className="ml-auto mr-4">Rendering with {store.router}</div>
 				<button

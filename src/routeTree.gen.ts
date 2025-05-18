@@ -13,9 +13,10 @@
 import { Route as rootRoute } from './routes/__root'
 import { Route as LayoutImport } from './routes/_layout'
 import { Route as LayoutIndexImport } from './routes/_layout/index'
+import { Route as LayoutHowImport } from './routes/_layout/how'
 import { Route as LayoutAppImport } from './routes/_layout/_app'
-import { Route as LayoutAppModernImport } from './routes/_layout/_app/modern'
-import { Route as LayoutAppLegacyImport } from './routes/_layout/_app/legacy'
+import { Route as LayoutAppTwoImport } from './routes/_layout/_app/two'
+import { Route as LayoutAppOneImport } from './routes/_layout/_app/one'
 
 // Create/Update Routes
 
@@ -30,20 +31,26 @@ const LayoutIndexRoute = LayoutIndexImport.update({
   getParentRoute: () => LayoutRoute,
 } as any)
 
+const LayoutHowRoute = LayoutHowImport.update({
+  id: '/how',
+  path: '/how',
+  getParentRoute: () => LayoutRoute,
+} as any)
+
 const LayoutAppRoute = LayoutAppImport.update({
   id: '/_app',
   getParentRoute: () => LayoutRoute,
 } as any)
 
-const LayoutAppModernRoute = LayoutAppModernImport.update({
-  id: '/modern',
-  path: '/modern',
+const LayoutAppTwoRoute = LayoutAppTwoImport.update({
+  id: '/two',
+  path: '/two',
   getParentRoute: () => LayoutAppRoute,
 } as any)
 
-const LayoutAppLegacyRoute = LayoutAppLegacyImport.update({
-  id: '/legacy',
-  path: '/legacy',
+const LayoutAppOneRoute = LayoutAppOneImport.update({
+  id: '/one',
+  path: '/one',
   getParentRoute: () => LayoutAppRoute,
 } as any)
 
@@ -65,6 +72,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LayoutAppImport
       parentRoute: typeof LayoutImport
     }
+    '/_layout/how': {
+      id: '/_layout/how'
+      path: '/how'
+      fullPath: '/how'
+      preLoaderRoute: typeof LayoutHowImport
+      parentRoute: typeof LayoutImport
+    }
     '/_layout/': {
       id: '/_layout/'
       path: '/'
@@ -72,18 +86,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LayoutIndexImport
       parentRoute: typeof LayoutImport
     }
-    '/_layout/_app/legacy': {
-      id: '/_layout/_app/legacy'
-      path: '/legacy'
-      fullPath: '/legacy'
-      preLoaderRoute: typeof LayoutAppLegacyImport
+    '/_layout/_app/one': {
+      id: '/_layout/_app/one'
+      path: '/one'
+      fullPath: '/one'
+      preLoaderRoute: typeof LayoutAppOneImport
       parentRoute: typeof LayoutAppImport
     }
-    '/_layout/_app/modern': {
-      id: '/_layout/_app/modern'
-      path: '/modern'
-      fullPath: '/modern'
-      preLoaderRoute: typeof LayoutAppModernImport
+    '/_layout/_app/two': {
+      id: '/_layout/_app/two'
+      path: '/two'
+      fullPath: '/two'
+      preLoaderRoute: typeof LayoutAppTwoImport
       parentRoute: typeof LayoutAppImport
     }
   }
@@ -92,13 +106,13 @@ declare module '@tanstack/react-router' {
 // Create and export the route tree
 
 interface LayoutAppRouteChildren {
-  LayoutAppLegacyRoute: typeof LayoutAppLegacyRoute
-  LayoutAppModernRoute: typeof LayoutAppModernRoute
+  LayoutAppOneRoute: typeof LayoutAppOneRoute
+  LayoutAppTwoRoute: typeof LayoutAppTwoRoute
 }
 
 const LayoutAppRouteChildren: LayoutAppRouteChildren = {
-  LayoutAppLegacyRoute: LayoutAppLegacyRoute,
-  LayoutAppModernRoute: LayoutAppModernRoute,
+  LayoutAppOneRoute: LayoutAppOneRoute,
+  LayoutAppTwoRoute: LayoutAppTwoRoute,
 }
 
 const LayoutAppRouteWithChildren = LayoutAppRoute._addFileChildren(
@@ -107,11 +121,13 @@ const LayoutAppRouteWithChildren = LayoutAppRoute._addFileChildren(
 
 interface LayoutRouteChildren {
   LayoutAppRoute: typeof LayoutAppRouteWithChildren
+  LayoutHowRoute: typeof LayoutHowRoute
   LayoutIndexRoute: typeof LayoutIndexRoute
 }
 
 const LayoutRouteChildren: LayoutRouteChildren = {
   LayoutAppRoute: LayoutAppRouteWithChildren,
+  LayoutHowRoute: LayoutHowRoute,
   LayoutIndexRoute: LayoutIndexRoute,
 }
 
@@ -120,39 +136,43 @@ const LayoutRouteWithChildren =
 
 export interface FileRoutesByFullPath {
   '': typeof LayoutAppRouteWithChildren
+  '/how': typeof LayoutHowRoute
   '/': typeof LayoutIndexRoute
-  '/legacy': typeof LayoutAppLegacyRoute
-  '/modern': typeof LayoutAppModernRoute
+  '/one': typeof LayoutAppOneRoute
+  '/two': typeof LayoutAppTwoRoute
 }
 
 export interface FileRoutesByTo {
   '': typeof LayoutAppRouteWithChildren
+  '/how': typeof LayoutHowRoute
   '/': typeof LayoutIndexRoute
-  '/legacy': typeof LayoutAppLegacyRoute
-  '/modern': typeof LayoutAppModernRoute
+  '/one': typeof LayoutAppOneRoute
+  '/two': typeof LayoutAppTwoRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/_layout': typeof LayoutRouteWithChildren
   '/_layout/_app': typeof LayoutAppRouteWithChildren
+  '/_layout/how': typeof LayoutHowRoute
   '/_layout/': typeof LayoutIndexRoute
-  '/_layout/_app/legacy': typeof LayoutAppLegacyRoute
-  '/_layout/_app/modern': typeof LayoutAppModernRoute
+  '/_layout/_app/one': typeof LayoutAppOneRoute
+  '/_layout/_app/two': typeof LayoutAppTwoRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '' | '/' | '/legacy' | '/modern'
+  fullPaths: '' | '/how' | '/' | '/one' | '/two'
   fileRoutesByTo: FileRoutesByTo
-  to: '' | '/' | '/legacy' | '/modern'
+  to: '' | '/how' | '/' | '/one' | '/two'
   id:
     | '__root__'
     | '/_layout'
     | '/_layout/_app'
+    | '/_layout/how'
     | '/_layout/'
-    | '/_layout/_app/legacy'
-    | '/_layout/_app/modern'
+    | '/_layout/_app/one'
+    | '/_layout/_app/two'
   fileRoutesById: FileRoutesById
 }
 
@@ -181,6 +201,7 @@ export const routeTree = rootRoute
       "filePath": "_layout.tsx",
       "children": [
         "/_layout/_app",
+        "/_layout/how",
         "/_layout/"
       ]
     },
@@ -188,20 +209,24 @@ export const routeTree = rootRoute
       "filePath": "_layout/_app.tsx",
       "parent": "/_layout",
       "children": [
-        "/_layout/_app/legacy",
-        "/_layout/_app/modern"
+        "/_layout/_app/one",
+        "/_layout/_app/two"
       ]
+    },
+    "/_layout/how": {
+      "filePath": "_layout/how.tsx",
+      "parent": "/_layout"
     },
     "/_layout/": {
       "filePath": "_layout/index.tsx",
       "parent": "/_layout"
     },
-    "/_layout/_app/legacy": {
-      "filePath": "_layout/_app/legacy.tsx",
+    "/_layout/_app/one": {
+      "filePath": "_layout/_app/one.tsx",
       "parent": "/_layout/_app"
     },
-    "/_layout/_app/modern": {
-      "filePath": "_layout/_app/modern.tsx",
+    "/_layout/_app/two": {
+      "filePath": "_layout/_app/two.tsx",
       "parent": "/_layout/_app"
     }
   }
