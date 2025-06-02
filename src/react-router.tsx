@@ -4,8 +4,8 @@ import { LegacyPage } from "@/routes/_layout/_app/one.tsx";
 import { ModernPage } from "@/routes/_layout/_app/two.tsx";
 import { HowPage } from "@/routes/_layout/how.tsx";
 import { MainApp } from "@/routes/_layout/index";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { Link as RouterLink } from "react-router-dom";
 
 export function Router() {
 	return (
@@ -28,13 +28,24 @@ export function Router() {
 									<Route path="/two">
 										<LegacyPage />
 									</Route>
+									<Route path="/three">
+										<div>
+											<div>three page</div>
+											<RouterLink to="/two">Go to two</RouterLink>
+										</div>
+									</Route>
+									<Route path="/nested/page">
+										<div>
+											<div>nested page</div>
+											<RouterLink to="/two">Go to two</RouterLink>
+										</div>
+									</Route>
 								</AppLayout>
 							</Route>
 						</Switch>
 					</GlobalLayout>
 				</Route>
 			</Switch>
-			<ReactQueryDevtools buttonPosition="bottom-right" />
 		</BrowserRouter>
 	);
 }

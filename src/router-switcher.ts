@@ -6,7 +6,7 @@ interface RouterSwitcherStore {
 }
 
 export const useRouterStore = create<RouterSwitcherStore>()((set) => ({
-	router: "react-router",
+	router: "tanstack",
 	switchRouter: () =>
 		set((state) => ({
 			router: state.router === "tanstack" ? "react-router" : "tanstack",

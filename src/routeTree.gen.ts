@@ -12,6 +12,7 @@
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as LayoutImport } from './routes/_layout'
+import { Route as SplatImport } from './routes/$'
 import { Route as LayoutIndexImport } from './routes/_layout/index'
 import { Route as LayoutHowImport } from './routes/_layout/how'
 import { Route as LayoutAppImport } from './routes/_layout/_app'
@@ -22,6 +23,12 @@ import { Route as LayoutAppOneImport } from './routes/_layout/_app/one'
 
 const LayoutRoute = LayoutImport.update({
   id: '/_layout',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const SplatRoute = SplatImport.update({
+  id: '/$',
+  path: '/$',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -58,6 +65,13 @@ const LayoutAppOneRoute = LayoutAppOneImport.update({
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/$': {
+      id: '/$'
+      path: '/$'
+      fullPath: '/$'
+      preLoaderRoute: typeof SplatImport
+      parentRoute: typeof rootRoute
+    }
     '/_layout': {
       id: '/_layout'
       path: ''
@@ -135,6 +149,7 @@ const LayoutRouteWithChildren =
   LayoutRoute._addFileChildren(LayoutRouteChildren)
 
 export interface FileRoutesByFullPath {
+  '/$': typeof SplatRoute
   '': typeof LayoutAppRouteWithChildren
   '/how': typeof LayoutHowRoute
   '/': typeof LayoutIndexRoute
@@ -143,6 +158,7 @@ export interface FileRoutesByFullPath {
 }
 
 export interface FileRoutesByTo {
+  '/$': typeof SplatRoute
   '': typeof LayoutAppRouteWithChildren
   '/how': typeof LayoutHowRoute
   '/': typeof LayoutIndexRoute
@@ -152,6 +168,7 @@ export interface FileRoutesByTo {
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
+  '/$': typeof SplatRoute
   '/_layout': typeof LayoutRouteWithChildren
   '/_layout/_app': typeof LayoutAppRouteWithChildren
   '/_layout/how': typeof LayoutHowRoute
@@ -162,11 +179,12 @@ export interface FileRoutesById {
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '' | '/how' | '/' | '/one' | '/two'
+  fullPaths: '/$' | '' | '/how' | '/' | '/one' | '/two'
   fileRoutesByTo: FileRoutesByTo
-  to: '' | '/how' | '/' | '/one' | '/two'
+  to: '/$' | '' | '/how' | '/' | '/one' | '/two'
   id:
     | '__root__'
+    | '/$'
     | '/_layout'
     | '/_layout/_app'
     | '/_layout/how'
@@ -177,10 +195,12 @@ export interface FileRouteTypes {
 }
 
 export interface RootRouteChildren {
+  SplatRoute: typeof SplatRoute
   LayoutRoute: typeof LayoutRouteWithChildren
 }
 
 const rootRouteChildren: RootRouteChildren = {
+  SplatRoute: SplatRoute,
   LayoutRoute: LayoutRouteWithChildren,
 }
 
@@ -194,8 +214,12 @@ export const routeTree = rootRoute
     "__root__": {
       "filePath": "__root.tsx",
       "children": [
+        "/$",
         "/_layout"
       ]
+    },
+    "/$": {
+      "filePath": "$.tsx"
     },
     "/_layout": {
       "filePath": "_layout.tsx",

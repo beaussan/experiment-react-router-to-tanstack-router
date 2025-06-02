@@ -1,5 +1,5 @@
-import { MyLink } from "@/components/MyLink.tsx";
 import { useRouterStore } from "@/router-switcher.ts";
+import { Link } from "@tanstack/react-router";
 
 export default function Header() {
 	const store = useRouterStore();
@@ -7,20 +7,30 @@ export default function Header() {
 		<header className="p-2 flex  gap-2 bg-white text-black justify-between">
 			<nav className="flex flex-row items-center w-full">
 				<div className="px-2 font-bold">
-					<MyLink to="/">Home</MyLink>
+					<Link to="/">Home</Link>
 				</div>
 				<div className="px-2 font-bold">
-					<MyLink to="/how">How</MyLink>
+					<Link to="/how">How</Link>
 				</div>
 
 				<div className="px-2 font-bold">
-					<MyLink to="/one">One</MyLink>
+					<Link to="/one">One</Link>
 				</div>
 				<div className="px-2 font-bold">
-					<MyLink to="/two">Two</MyLink>
+					<Link to="/two">Two</Link>
 				</div>
 				<div className="px-2 font-bold">
-					<MyLink to="/how">How</MyLink>
+					<Link to="/$" params={{ _splat: "/three" }}>
+						Three
+					</Link>
+				</div>
+				<div className="px-2 font-bold">
+					<Link to="/$" params={{ _splat: "/nested/page" }}>
+						Nested
+					</Link>
+				</div>
+				<div className="px-2 font-bold">
+					<Link to="/how">How</Link>
 				</div>
 				<div className="ml-auto mr-4">Rendering with {store.router}</div>
 				<button
